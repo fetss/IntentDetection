@@ -30,7 +30,7 @@ def custom_tokenizer(string):
     string = [s for s in string if not s.isnumeric()]
     return string
 
-def naive_algo(feature_n):
+def naive_algo():
     data = get_data()
 
     tfidf_vect = TfidfVectorizer(use_idf=False,
@@ -39,7 +39,7 @@ def naive_algo(feature_n):
                                  min_df=3,
                                  ngram_range=(1, 2),
                                  tokenizer=custom_tokenizer,
-                                 max_features=feature_n,
+                                 max_features=350,
                                  stop_words=['và', 'bạn', 'tôi', 'mình', 'giúp', 'có'])
 
     #print(list(map(tfidf_vect.build_tokenizer(),data['Command'])))
@@ -49,8 +49,8 @@ def naive_algo(feature_n):
 
     return clf,tfidf_vect
 
-def test(feature_n):
-    clf, tfidf_vect = naive_algo(feature_n)
+def test():
+    clf, tfidf_vect = naive_algo()
 
     df_test_command = pd.read_csv('TestData/seq.in', names=['Command'])
     df_test_label = pd.read_csv('TestData/label', names=['Label'])
@@ -63,8 +63,8 @@ def test(feature_n):
 
     return metric
 
-def random_test(feature_n):
-    clf, tfidf_vect = naive_algo(feature_n)
+def random_test():
+    clf, tfidf_vect = naive_algo()
 
     df_test_command = pd.read_csv('TestData/seq.in', names=['Command'])
     df_test_label = pd.read_csv('TestData/label', names=['Label'])
@@ -77,5 +77,5 @@ def random_test(feature_n):
     return metric
 
 if __name__ == '__main__':
-    metric = test(350)
+    metric = test()
     print(metric)
